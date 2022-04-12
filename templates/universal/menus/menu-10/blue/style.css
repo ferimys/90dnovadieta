@@ -1,0 +1,112 @@
+#menuBar { background-color: #9EC6FF; }
+
+#menuBar { padding: none; }
+
+
+#myMenu ul li {
+  list-style: none;
+  }	
+  
+  
+#myMenu li a {
+  height: 24px;
+	text-decoration: none;
+	wdith: 150px;
+	}	
+	
+#myMenu li a:link, #myMenu li a:visited {
+	color: #122634;
+	display: block;
+	background: url(menu2.gif);
+	padding: 8px 0 0 10px;
+
+	}
+	
+#myMenu li a:hover {
+	color: #122634;
+  background: url(menu2.gif) 160px 0px;
+	padding: 8px 0 0 10px;
+
+	}
+	
+#myMenu li a:active {
+	color: #122634;
+  background: url(menu2.gif) 160px 0px;
+	padding: 8px 0 0 10px;
+
+	}
+	
+#myMenu li.select a:link, #myMenu li.select a:visited {
+  background: url(menu2.gif) 160px 0px;
+  height: 24px;
+  }
+	
+#myMenu ul li
+{
+ width: 145px;
+ float: left;
+ margin: 0 0 0 0;
+ padding: 0 0 0 0;
+}
+
+
+
+
+
+#myMenu li.select a:link, #myMenu li.select a:visited {
+  height: auto;
+
+}
+#myMenu li a {
+  height: auto;
+  width: 149px;
+	}	
+#myMenu li a:link, #myMenu li a:visited {
+	padding-bottom: 7px;
+	}
+	
+#myMenu li a:hover {
+	padding-bottom: 7px;
+	}
+	
+#myMenu li a:active {
+	padding-bottom: 7px;
+	}
+	
+#myMenu li.select a:link, #myMenu li.select a:visited {
+	padding-bottom: 7px;
+  }
+#myMenu ul li
+{
+ width: 159px;
+}
+#myMenu ul li ul li {
+ width: 144px;
+}
+#myMenu ul li ul li a {
+ width: 134px;
+}
+#myMenu ul li ul li ul li {
+ width: 129px;
+}
+#myMenu ul li ul li ul li a {
+ width: 119px;
+}
+#myMenu ul li ul li ul li ul li {
+ width: 114px;
+}
+#myMenu ul li ul li ul li ul li a {
+ width: 104px;
+}
+#myMenu ul li ul li ul li ul li ul li {
+ width: 89px;
+}
+#myMenu ul li ul li ul li ul li ul li a {
+ width: 89px;
+}
+#leftBar #myMenu, #rightBar #myMenu { 
+	background-color: #83ACFF;
+	position: relative; 
+	height: auto; 
+	width: 100%; 
+}

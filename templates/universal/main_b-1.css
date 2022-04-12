@@ -1,0 +1,10 @@
+#siteMain {background: #ffffff url(http://www.90dnovadieta.biznisweb.sk/templates/universal/main_bg_left.png) repeat-y;}
+#leftBar {float: left;  width: 150px;}
+#leftBar ul {list-style-type: none;}
+#leftBar ul li ul {margin-left: 10px;}
+#leftBar ul li.select {font-weight: bold;}
+#leftBar ul li.select ul {font-weight: normal; list-style-type: square; margin-left: 15px;}
+#leftBar ul li.select ul li.select {font-weight: bold;}
+#mainBar {float: left; padding-left: 25px; _padding-left: 15px; padding-top: 15px; width: 570px;}
+
+#leftBar #myMenu { margin-left: 1px; }

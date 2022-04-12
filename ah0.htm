@@ -1,0 +1,1012 @@
+<META http-equiv="Content-Type" Content="text/html; charset=utf-8">
+<!-- common style -->
+<link href="style.css" rel="stylesheet" type="text/css">
+
+
+<script language="javascript">
+String.prototype.trim = function()
+{
+	return this.replace(/^\s+/, "").replace(/\s+$/, "");
+}
+
+function EcrireCookie(nom, valeur)
+{
+	var argv=EcrireCookie.arguments;
+	var argc=EcrireCookie.arguments.length;
+	var expires=(argc > 2) ? argv[2] : null;
+	var path=(argc > 3) ? argv[3] : null;
+	var domain=(argc > 4) ? argv[4] : null;
+	var secure=(argc > 5) ? argv[5] : false;
+	document.cookie=nom+"="+escape(valeur)+
+	((expires==null) ? "" : ("; expires="+expires.toGMTString()))+
+	((path==null) ? "" : ("; path="+path))+
+	((domain==null) ? "" : ("; domain="+domain))+
+	((secure==true) ? "; secure" : "");
+}
+
+function getCookieVal(offset)
+{
+	var endstr=document.cookie.indexOf (";", offset);
+	if (endstr==-1) endstr=document.cookie.length;
+	return unescape(document.cookie.substring(offset, endstr));
+}
+function LireCookie(nom)
+{
+	var arg=nom+"=";
+	var alen=arg.length;
+	var clen=document.cookie.length;
+	var i=0;
+	while (i<clen)
+	{
+	var j=i+alen;
+	if (document.cookie.substring(i, j)==arg) return getCookieVal(j);
+	i=document.cookie.indexOf(" ",i)+1;
+	if (i==0) break;
+	
+	}
+	return null;
+}
+	
+</script>
+
+<script type="text/javascript">
+
+
+function str_repeat(i, m) { for (var o = []; m > 0; o[--m] = i); return(o.join('')); }
+
+function sprintf () {
+  var i = 0, a, f = arguments[i++], o = [], m, p, c, x;
+  while (f) {
+    if (m = /^[^\x25]+/.exec(f)) o.push(m[0]);
+    else if (m = /^\x25{2}/.exec(f)) o.push('%');
+    else if (m = /^\x25(?:(\d+)\$)?(\+)?(0|'[^$])?(-)?(\d+)?(?:\.(\d+))?([b-fosuxX])/.exec(f)) {
+      if (((a = arguments[m[1] || i++]) == null) || (a == undefined)) throw("Too few arguments.");
+      if (/[^s]/.test(m[7]) && (typeof(a) != 'number'))
+        throw("Expecting number but found " + typeof(a));
+      switch (m[7]) {
+        case 'b': a = a.toString(2); break;
+        case 'c': a = String.fromCharCode(a); break;
+        case 'd': a = parseInt(a); break;
+        case 'e': a = m[6] ? a.toExponential(m[6]) : a.toExponential(); break;
+        case 'f': a = m[6] ? parseFloat(a).toFixed(m[6]) : parseFloat(a); break;
+        case 'o': a = a.toString(8); break;
+        case 's': a = ((a = String(a)) && m[6] ? a.substring(0, m[6]) : a); break;
+        case 'u': a = Math.abs(a); break;
+        case 'x': a = a.toString(16); break;
+        case 'X': a = a.toString(16).toUpperCase(); break;
+      }
+      a = (/[def]/.test(m[7]) && m[2] && a > 0 ? '+' + a : a);
+      c = m[3] ? m[3] == '0' ? '0' : m[3].charAt(1) : ' ';
+      x = m[5] - String(a).length;
+      p = m[5] ? str_repeat(c, x) : '';
+      o.push(m[4] ? a + p : p + a);
+    }
+    else throw ("Huh ?!");
+    f = f.substring(m[0].length);
+  }
+  return o.join('');
+}
+var EMPTY_CELL=' - ';
+var BACK_ALL='Back All';
+var BACK_LAY='Back/Lay';
+var BACK_AGAINST='Back/Against';
+var BET_ENTRY_REPARTITION_NORMAL=1;
+var BET_ENTRY_REPARTITION_DNB=2;
+var BET_ENTRY_REPARTITION_DOUBLE=3;
+var BET_TYPE_DNB='Asian Handicap +0/-0';
+var m_MinAmountBets = [ 'BetFair', 4, 'Betdaq', 2, 'BetssonExchange', 3, 'SBOBET', 10, 'TheGreek', 1, 'Unibet', 1 ];
+// 0 => no com, 1 => on winning, 2 => on volume, 3 => on volume of winnings
+var m_ExchangeCommissionTypes = [ 'BetFair', 1, 'Bestake', 3, 'Betdaq', 1, 'BetssonExchange', 1, 'MatchBook', 2 ];
+var m_iOddsCount=0;
+var m_axBetEntriesRepartition=new Array();
+var m_adGlobalOddsNet=new Array();
+var m_dTotalPercentage=0;
+var m_dTotalAmount=0;
+var m_dTotalFor1CrossMarkets=0;
+var m_adAmountToBet=new Array();
+var m_adPotentialWin=new Array();
+var m_adPotentialReturn=new Array(); 
+var m_adPotentialLoss=new Array(); 
+var m_adAbsoluteWin=new Array();
+var m_aActualOddsVirtual1=new Array();
+var m_aActualOddsVirtual2=new Array();
+
+String.prototype.trim = function()
+{
+	return this.replace(/^\s+/, "").replace(/\s+$/, "");
+}
+
+String.prototype.startsWith = function(str)
+{
+	return (this.match("^"+str)==str);
+}
+
+
+function MyRound( dNumber, iDecimal)
+{
+	var tmp = Math.pow(10, iDecimal);
+	var result = Math.round(dNumber * tmp) / tmp;
+	return result;
+}
+
+function ComputeNetOdds( sBetKindEntry, dRawOdds, dNetCom, iComType)
+{
+	// normal comission or none
+	if (1 == iComType )
+	{
+		var dModifier = ( 1 + ( sBetKindEntry == 'Back' ? -1 : 1) * (dNetCom/100));
+		var dNetOdds = MyRound( 1 + ((dRawOdds - 1) * dModifier), 3);
+		return dNetOdds;
+	}
+    // Match book type with com on max volume (winnings/amount)
+    if (2 == iComType)
+    {
+		var dToWinFor1   = dRawOdds - 1.0; 
+        var dMinVolToWin = Math.min( 1.0, dToWinFor1); 
+        var dComPaid     = (dNetCom/100) * dMinVolToWin; 
+        var dActuallyBet = 1.0 + dComPaid; 
+        var dNetOdds2 	 = (dToWinFor1/dActuallyBet) + 1;
+        return MyRound(dNetOdds2, 3);
+    }
+    // Bestake like com on winning bets, full volume
+    if (3 == iComType)
+    {
+    	var dModifier = ( 1 + ( sBetKindEntry == 'Back' ? -1 : 1) * (dNetCom/100));
+		var dNetOdds = MyRound( dRawOdds* dModifier, 3);
+		return dNetOdds;
+    }
+    return dRawOdds; // no com
+}
+
+
+// normal commission (betfair etc)
+function IsExchangeWithComOnMarket( sBooker)
+{
+	return GeCommissionType( sBooker) == 1 ? true : false;
+}
+
+// commission on volume of bet/winning amount (matchbook)
+function IsExchangeWithComOnVolume( sBooker)
+{
+	return GeCommissionType( sBooker) == 2 ? true : false;
+}
+
+// commission on whole bet (bestake)
+function IsExchangeWithComOnVolumeOfWinningBets( sBooker)
+{
+	return GeCommissionType( sBooker) == 3 ? true : false;
+}
+
+function GeCommissionType( sBooker)
+{
+	for (var i=0; i<m_ExchangeCommissionTypes.length; i+=2) 
+	{
+		if ( sBooker == m_ExchangeCommissionTypes[i] )
+			return m_ExchangeCommissionTypes[i+1];
+	}
+	return 0;
+}
+
+function GetMinBet( sBooker)
+{
+	for (var i=0; i<m_MinAmountBets.length; i+=2) 
+	{
+		if ( sBooker == m_MinAmountBets[i] )
+			return m_MinAmountBets[i+1];
+	}
+	return 0;
+}
+/*
+function SetInnerText( sId, sVal) 
+{
+	// IE and Firefox do not support the same property!!
+	if(document.all)
+     	document.getElementById(sId).innerText = sVal;
+	else
+		document.getElementById(sId).textContent = sVal;
+}
+*/
+
+
+
+
+function GetBetEntryBetOdds_DXX( i, bDNB)
+{
+	var dNetCom12 		= GetNetCom(i, 1);
+	var dNetComX 		= GetNetCom(i, 2);
+
+	var dRawOdds12 	= GetOddsValue( i+1, 1);
+	var dRawOddsX 		= GetOddsValue( i+1, 2);
+	var sBook12			= GetBookerName( i+1, 1);
+	var sBookX			= GetBookerName( i+1, 2);
+
+	if 	( 		(sBook12 == sBookX) 
+			 && IsExchangeWithComOnMarket( sBook12)
+		  		//( (sBook12 ==  BOOKER_BETFAIR) || (sBook12 == BOOKER_BETDAQ) )
+		)
+	{
+		if ( dNetCom12 != dNetComX )
+			alert( 'Commission entered are not the same for the same bookmaker! => Taking into account the smallest one.');
+		var dNetCom = Math.min(dNetCom12, dNetComX);
+		SetActualOddsVirtual( i, dRawOdds12, dRawOddsX);
+		return bDNB ? ComputeDNBOddsBetFair( dRawOdds12, dRawOddsX, dNetCom) : ComputeDBLOddsBetFair( dRawOdds12, dRawOddsX, dNetCom);
+	}
+	else
+	{
+		var sBetKindEntry12 = GetBetKindEntry( i+1, 1);
+		var sBetKindEntryX = GetBetKindEntry( i+1, 2);
+		var dNetOdds12 = ComputeNetOdds( sBetKindEntry12, dRawOdds12, dNetCom12, GeCommissionType( sBook12));
+		var dNetOddsX = ComputeNetOdds( sBetKindEntryX, dRawOddsX, dNetComX, GeCommissionType( sBookX));
+		SetActualOddsVirtual( i, dNetOdds12, dNetOddsX);
+		return bDNB ? ComputeDNBOdds(dNetOdds12, dNetOddsX) : ComputeDBLOdds(dNetOdds12, dNetOddsX);
+	}
+}
+
+
+function GetVolumeValueVirtual( index) 
+{ 
+	switch(m_axBetEntriesRepartition[index-1])
+	{
+		case BET_ENTRY_REPARTITION_NORMAL: 
+			return GetVolumeValue( index, -1);
+		case BET_ENTRY_REPARTITION_DNB:
+			return 	GetVolumeValueDNB( index);
+		case BET_ENTRY_REPARTITION_DOUBLE:
+			return GetVolumeValueDBL( index);
+	}
+}
+
+function GetBetEntriesRepartitionTypes() 
+{ 
+	var i = 0; 
+	for (i=0; i<m_iOddsCount; i++)
+	{
+		if (!IsVirtualOdds(i+1))
+			m_axBetEntriesRepartition[i] = BET_ENTRY_REPARTITION_NORMAL;
+		else if (GetBetType() == BET_TYPE_DNB)
+			m_axBetEntriesRepartition[i] = BET_ENTRY_REPARTITION_DNB;
+		else
+			m_axBetEntriesRepartition[i] = BET_ENTRY_REPARTITION_DOUBLE;
+	}
+}
+
+function GetNetCom( i, iSub)
+{
+	var dRawCom = GetCommissionValue( i+1, iSub);
+	var dComRebate = GetCommissionRebateValue( i+1, iSub);
+	
+	return (dRawCom * ( 100 - dComRebate))/100;
+}
+
+
+
+function GetNetOdds( iIndex, iSubIndex)
+{
+	var dRawOdds 		= GetOddsValue( iIndex, iSubIndex);
+	var dNetCom 		= GetNetCom( iIndex-1, iSubIndex);
+	var sBetKindEntry 	= GetBetKindEntry( iIndex, iSubIndex);
+	var sBook 			= GetBookerName( iIndex, iSubIndex);
+	return ComputeNetOdds( sBetKindEntry, dRawOdds, dNetCom, GeCommissionType( sBook));
+}
+
+function GetBetEntryBetOdds_Normal( i)
+{
+	return GetNetOdds( i+1, -1);
+}
+
+
+
+function GetActualOddsVirtualArray( i)
+{
+	if (0==i)
+		return m_aActualOddsVirtual1;
+	return m_aActualOddsVirtual2;
+}
+
+function SetActualOddsVirtual( i, dVal12, dValX)
+{
+	GetActualOddsVirtualArray(i)[0] = dVal12;
+	GetActualOddsVirtualArray(i)[1] = dValX;
+}
+
+
+
+// Get the net odds of each bet (high-level)
+function GetBetEntriesNetOdds()
+{
+	var i = 0, dVal = 0; 
+	for (i=0; i<m_iOddsCount; i++)
+	{
+		switch( m_axBetEntriesRepartition[i] )
+		{
+			case BET_ENTRY_REPARTITION_NORMAL:  dVal = GetBetEntryBetOdds_Normal( i); 		break;
+			case BET_ENTRY_REPARTITION_DNB: 	dVal = GetBetEntryBetOdds_DXX( i, true); 	break;
+			case BET_ENTRY_REPARTITION_DOUBLE:  dVal = GetBetEntryBetOdds_DXX( i, false); 	break;
+			default: alert('Invalid type of repartition:' + m_axBetEntriesRepartition[i]); break;
+		}
+		m_adGlobalOddsNet[i] = dVal;
+	}
+}
+
+
+// Do the actual computation of amounts etc. Main entry point
+function DoComputation(bWithMessage)
+{
+	GetOddsCount();
+	GetBetEntriesRepartitionTypes();
+	GetBetEntriesNetOdds();
+	
+	var BetKind = GetBetKind();
+	switch (BetKind)
+	{
+	 	case BACK_LAY:
+			if (false == ComputeAmounts_BackLay())
+				return;
+			break;
+		case BACK_ALL:
+			ComputeAmounts_BackAll( bWithMessage);
+			break;
+		case BACK_AGAINST:
+			//ComputeAmounts_BackLayOrAgainst( false);	=> not supported anymore
+			break;
+		default:
+			alert('Invalid type of bet:' + BetKind);
+			return;
+	}
+	DumpResult();
+}
+
+function GetObjectInnerText( obj)
+{
+// IE and Firefox do not support the same property!!
+	if(document.all)
+     	return obj.innerText; // ie
+	return obj.textContent ;
+}
+
+function GetInnerText( sId) 
+{
+	return GetObjectInnerText( document.getElementById(sId));
+}
+
+function GetEltId( prefix, index, subindex) 		{ return prefix + 'Index' + index + 'SubIndex' + subindex; }
+function GetElt( prefix, index, subindex) 			{ return document.getElementById(GetEltId( prefix ,index , subindex)); }
+function GetOddsElt( index, subindex) 				{ return GetElt( 'RawOdds', index, subindex); }
+function GetOddsValue( index, subindex) 			{ return parseFloat( GetOddsElt( index, subindex).value); }
+function GetCommissionValue( index, subindex) 		{ return GetElt( 'Commission', index, subindex).value; }
+function GetCommissionRebateValue( index, subindex) { return GetElt('Rebate', index, subindex).value; }
+function GetBetKindEntry( index, subindex) 			{ return GetInnerText('BetKindEntryIndex' + index + 'SubIndex' + subindex); }
+function GetBetName( index, subindex) 				{ return GetInnerText('NameIndex' + index + 'SubIndex' + subindex); }
+function GetVolumeValue( index, subindex) 
+{ 
+	//alert( index + ", " + subindex + " => " + GetElt( 'Volume', index, subindex));
+	return GetElt( 'Volume', index, subindex).value; 
+}
+function IsVirtualOdds( index) 	{ return (GetOddsElt( index, -1)  == null); }
+function GetBetKind() 			{ return GetInnerText('BetKind'); }
+function GetBetType() 			{ return GetInnerText('BetType'); }
+function GetOddsCount() 		{ m_iOddsCount = ((GetBetKind() == BACK_ALL) && ((GetBetType() == "1X2") || IsCrossMarket()) ||  (GetBetType().startsWith( "3Way Handicap")) ) ? 3 : 2; }
+function GetNetProba( i) 		{ return 1/m_adGlobalOddsNet[i]; } 
+function IsCrossMarket() 		{ return document.getElementById('IsCrossMarkets').value == 'True'; }
+function GetBetTypeId() 		{ return document.getElementById('BetTypeId').value; }
+
+//function GetBookerName( index, subindex) { return GetInnerText('BookerIndex' + index + 'SubIndex' + subindex); }
+function getComboElt(index, subindex)
+{
+	return document.getElementById( "combo#" + index + "#" + subindex);
+}
+	
+function GetBookerName( index, subindex) 
+{ 
+	var combo = getComboElt( index, subindex) ;
+	var sBook = GetObjectInnerText( combo.options[combo.selectedIndex]);
+	//alert (sBook);
+	var pos = sBook.indexOf( "(");
+	sBook = sBook.substring( 0, pos-1);
+	sBook = sBook.trim();
+	return sBook;
+//	return GetInnerText('BookerIndex' + index + 'SubIndex' + subindex); 
+}
+
+// Return data of the row
+function GetSelectionData(index, subindex) 
+{
+	var combo = getComboElt( index, subindex);
+    if (null == combo )
+    	return null;
+	return combo.options[combo.selectedIndex].value;
+}
+
+
+function GetBookerId( index, subindex) 
+{
+	var data 	= GetSelectionData( index, subindex);
+    if (null == data)
+    	return -1;
+	var pos 	= data.lastIndexOf( "#");
+	var sub 	= data.substring( 0, pos);
+    var pos2 	= sub.lastIndexOf( "#");
+    return data.substring(pos2+1, pos);
+}
+
+function GetNavigationData( index, subindex) 
+{
+	var book_id = GetBookerId( index, subindex) ;
+	return GetInnerText('navigation_' + index + '_' + subindex + '_' + book_id);
+}
+
+function addResume(sRowText) 
+{
+	var resume  = document.getElementById('resume');
+	
+    var tn = document.createTextNode(sRowText);
+	resume.appendChild(tn);
+}
+
+function addResumeCrossMarkets(sRowText) 
+{
+	var resume  = document.getElementById('resume_crossmarkets');
+	
+    var tn = document.createTextNode(sRowText);
+	resume.appendChild(tn);
+}
+
+function ClearResume()
+{
+	SetInnerText( 'resume', '');
+    SetInnerText( 'resume_crossmarkets', '');
+}
+
+function addCrossMarketsExplanation()
+{
+	var explanation_total = '';
+	var explanation1 = '';
+    var explanation2 = '';
+    var explanation3 = '';
+
+	var resume  = document.getElementById('resume_crossmarkets');
+	
+    addResume( explanation_total);
+	resume.appendChild(document.createElement("br"));
+    addResumeCrossMarkets( explanation1);
+    resume.appendChild(document.createElement("br"));
+	addResumeCrossMarkets( explanation2);
+	resume.appendChild(document.createElement("br"));
+    addResumeCrossMarkets( explanation3);
+}
+
+function updateRow( iEntryIndex, iSubEntryIndex, asRowData)
+{
+	var row   = document.getElementById('result_row_' + iEntryIndex + '_'+ iSubEntryIndex);
+    row.className = "";
+	for (i=0; i<asRowData.length; i++)
+	{
+	    var key = 'result_cell_' + iEntryIndex + '_' + iSubEntryIndex + '_' + i;
+        SetInnerText( key, asRowData[i]);
+        if ((3 == i) && (asRowData[10] >= 0)) // Net odds for real bookmakers
+        {
+        	var netOdds   = document.getElementById(key);
+            netOdds.bgColor = 'Teal';
+        }
+        if ((5 == i) && (asRowData[10] >= 0)) // compare amount to min amount for real boookmaker only
+        {
+        	var amount2Bet   = document.getElementById(key);
+            amount2Bet.bgColor = asRowData[5] < GetMinBet(asRowData[2]) ? 'Red' : 'Teal';
+        }
+    }
+}
+
+
+
+function DumpVirtualRows( sText, i, adVirtualAmounts)
+{
+	// This is the summary row
+    var asRowData = new Array( GetBetKindEntry( i+1, 1), sText + GetBetName(i+1,1), GetBookerName(i+1,1) + '/' + GetBookerName(i+1,2), 
+						EMPTY_CELL, m_adGlobalOddsNet[i], m_adAmountToBet[i], m_adPotentialWin[i], m_adPotentialReturn[i], m_adPotentialLoss[i], m_adAbsoluteWin[i], -1, "");
+    updateRow( i+1, -1, asRowData);
+
+	var j = 0;
+	for (j=0;j<2;j++)
+	{
+    	
+		var iRawOdds = GetOddsValue( i+1, j+1);
+		var dAmount = MyRound( adVirtualAmounts[j], 2);
+		var asRowData2 = new Array( GetBetKindEntry( i+1, 1), '==> ' + GetBetName(i+1,j+1), GetBookerName(i+1,j+1), 
+										iRawOdds, EMPTY_CELL, dAmount, EMPTY_CELL, EMPTY_CELL, EMPTY_CELL, EMPTY_CELL, GetBookerId(i+1,j+1), GetNavigationData(i+1,j+1));
+        updateRow( i+1, j+1, asRowData2);        
+	}
+}
+
+// Display the results
+function DumpResult()
+{
+	var i = 0, j = 0; 
+
+	// Remove old results
+	ClearResume();
+	
+	// Display new ones
+	for (i=0; i<m_iOddsCount; i++)
+	{
+		var adVirtualAmounts = new Array();
+		
+		switch( m_axBetEntriesRepartition[i] )
+		{
+			case BET_ENTRY_REPARTITION_NORMAL: 
+            	var asRowData = new Array( GetBetKindEntry( i+1,-1), GetBetName(i+1,-1), GetBookerName(i+1,-1), GetOddsValue(i+1,-1), m_adGlobalOddsNet[i], m_adAmountToBet[i],
+							m_adPotentialWin[i], m_adPotentialReturn[i], m_adPotentialLoss[i], IsCrossMarket() ? "N/A" : m_adAbsoluteWin[i], GetBookerId(i+1,-1), GetNavigationData(i+1,-1));
+            	updateRow( i+1, -1, asRowData);
+				break;
+			case BET_ENTRY_REPARTITION_DNB:
+				var dNetQX = GetActualOddsVirtualArray(i)[1];
+				adVirtualAmounts[0] = GetDNBAmount1or2(m_adAmountToBet[i], dNetQX);
+				adVirtualAmounts[1] = GetDNBAmountX(adVirtualAmounts[0],dNetQX);
+				DumpVirtualRows( 'Virtual Draw No Bet with: ', i, adVirtualAmounts);
+				 break;
+			case BET_ENTRY_REPARTITION_DOUBLE: 
+				var dQA = GetOddsValue( i+1, 1), dQB = GetOddsValue( i+1, 2);
+				adVirtualAmounts[0] = GetDBLAmount( m_adAmountToBet[i], dQA, dQB);
+				adVirtualAmounts[1] = GetDBLAmount( m_adAmountToBet[i], dQB, dQA);				 
+				DumpVirtualRows( 'Virtual double chance with: ', i, adVirtualAmounts);
+				break;
+			default: 
+				alert('Invalid type of repartition:' + m_axBetEntriesRepartition[i]); 
+				break;
+		}
+	}
+	var dRetour = MyRound( 100 - m_dTotalPercentage, 3);
+	addResume( "Return: " + dRetour + "%");
+	if (m_dTotalPercentage > 100)
+		alert( 'Warning: This arbitrage has a negative return!');
+	if (IsCrossMarket())
+		addCrossMarketsExplanation();
+}function ComputeAmounts_BackLay( )
+{
+	var	bIsBeStake			= IsExchangeWithComOnVolumeOfWinningBets( GetBookerName( 2, -1));
+	var dOddsBackNet 		= m_adGlobalOddsNet[0];
+	var dOddsLayRaw 		= GetOddsValue( 2, -1);
+	var dLayCommissionNet 	= GetNetCom( 1, -1)/ 100;
+	var dLimitBack 			= GetVolumeValue(1, -1);
+	var dLimitLay 			= GetVolumeValue(2, -1);
+	var dAmountBack 		= 0;
+    var dAmountLay 			= 0;
+    
+	if ((0 == dLimitBack) && (0 == dLimitLay))
+	{
+		alert( 'You must enter at least one limit to compute amounts!');
+		return false;
+	}
+	if ( dLimitLay == 0 ) // force on back on its maximum
+	{
+		dAmountBack = dLimitBack;
+		dAmountLay 	= GetAmountLayFromBack(dAmountBack, dOddsBackNet, dOddsLayRaw, dLayCommissionNet);
+	}
+	else if (dLimitBack == 0) // force on lay on its maximum
+	{
+		dAmountLay = dLimitLay;
+		dAmountBack = GetAmountBackFromLay(dAmountLay, dOddsBackNet, dOddsLayRaw, dLayCommissionNet);
+	}
+	else
+	{
+		var dLimit1 = dLimitLay;
+        var dLimit2 = GetAmountLayFromBack(dLimitBack, dOddsBackNet, dOddsLayRaw, dLayCommissionNet);
+		dAmountLay 	= Math.min( dLimit1, dLimit2);
+		dAmountBack = GetAmountBackFromLay(dAmountLay, dOddsBackNet, dOddsLayRaw, dLayCommissionNet);
+	}
+    
+	m_adAmountToBet[0] 		= MyRound(dAmountBack,2);
+	m_adAmountToBet[1] 		= MyRound(dAmountLay,2);
+	m_adPotentialWin[0] 	= MyRound( ((m_adGlobalOddsNet[0] - 1) * m_adAmountToBet[0]), 2);
+	m_adPotentialWin[1] 	= MyRound(  m_adAmountToBet[1] * ( 1.0 - dLayCommissionNet), 2 );
+	m_adPotentialReturn[0]  = MyRound( (m_adGlobalOddsNet[0]* m_adAmountToBet[0]), 2);
+	m_adPotentialReturn[1]  = m_adPotentialWin[1] ;
+	m_adPotentialLoss[0] 	= m_adAmountToBet[0] ;
+	m_adPotentialLoss[1] 	= MyRound( (dOddsLayRaw - 1) * m_adAmountToBet[1], 2 );
+	m_adAbsoluteWin[0]		= MyRound( m_adPotentialWin[0] - m_adPotentialLoss[1], 2);
+	m_adAbsoluteWin[1]		= MyRound( m_adPotentialWin[1] - m_adPotentialLoss[0], 2);
+	
+	m_dTotalPercentage = 100 - (100 * (m_adAbsoluteWin[0] / ( m_adAmountToBet[0] + m_adAmountToBet[1])));
+	return true;
+}
+
+
+function GetAmountLayFromBack( dAmountBack, dOddsBack, dOddsLayRaw, dCommission)
+{
+	return ((dAmountBack * dOddsBack) / (/*Not dOddsLay !!*/dOddsLayRaw - dCommission));
+}
+
+function GetAmountBackFromLay( dAmountLayRaw, dOddsBack, dOddsLayRaw, dCommission)
+{
+	return ((dAmountLayRaw * (/*NOT dOddsLay!!*/ dOddsLayRaw - dCommission)) / dOddsBack);
+}
+		function ComputeAmountPerBet_BackAll()
+{
+	var i = 0;
+	for (i=0; i<m_iOddsCount; i++)
+	{
+		var dVal = 0;
+        
+        if (IsCrossMarket())
+        {
+        	switch (i)
+            {
+            	case 0: dVal = m_dTotalFor1CrossMarkets; 				break;
+                case 1: dVal = m_dTotalFor1CrossMarkets * GetM2(); 		break;
+                case 2: dVal = m_dTotalFor1CrossMarkets * GetM3(); 		break;
+            }
+        }
+        else
+        	dVal = (GetNetProba(i) / m_dTotalPercentage) * m_dTotalAmount;
+		m_adAmountToBet[i] 		= MyRound( dVal,2);
+		m_adPotentialWin[i] 	= MyRound( ((m_adGlobalOddsNet[i] - 1) * m_adAmountToBet[i]), 2);
+		m_adPotentialReturn[i] 	= MyRound( (m_adGlobalOddsNet[i]  * m_adAmountToBet[i]), 2);
+		m_adPotentialLoss[i] 	= m_adAmountToBet[i];
+		m_adAbsoluteWin[i] 		= MyRound( m_adPotentialReturn[i] - m_dTotalAmount/100,2);
+	}
+}
+
+function ComputeGlobalAmount_BackAll_CrossMarkets(bWithMsg)
+{
+	var dLimit1 	= GetVolumeValueVirtual(1, -1); 						    var dLimit2 	= GetVolumeValueVirtual(2, -1) * (1/GetM2()); 			    var dLimit3 	= GetVolumeValueVirtual(3, -1) * (1/GetM3());
+    
+    if ( (0 == dLimit1) && (0 == dLimit2) && (0 == dLimit3) ) 
+    {
+    	if (bWithMsg == true)
+    		alert( 'You must enter at least one limit to compute amounts!');
+        m_dTotalAmount = 0;
+        return;
+    }
+    //alert( dLimit1 + ' ' + dLimit2 + ' ' + dLimit3);
+    var dLimitFor1 = 10000000;
+    if (dLimit1 > 0 )
+    	dLimitFor1 = Math.min( dLimit1, dLimitFor1);
+    if (dLimit2 > 0 )
+    	dLimitFor1 = Math.min( dLimit2, dLimitFor1);
+    if (dLimit3 > 0 )
+    	dLimitFor1 = Math.min( dLimit3, dLimitFor1);
+    m_dTotalFor1CrossMarkets 	= dLimitFor1;
+    m_dTotalAmount 				= dLimitFor1 * ( 1 + GetM2() + GetM3());
+}
+
+
+function ComputeGlobalAmount_BackAll_Normal(bWithMsg)
+{
+	var dMinMax = 10000000, i = 0;
+	var dMinTotalAmount = dMinMax;
+
+	m_dTotalAmount = 0;
+	// Compute total amount to bet
+	for (i=0; i<m_iOddsCount; i++)
+	{
+		var dProba = GetNetProba(i);
+		var dLimit = GetVolumeValueVirtual(i+1, -1);
+		var dMax = (1 / ( dProba / m_dTotalPercentage ) ) * dLimit;
+
+		if ( dLimit >0) { dMinTotalAmount = Math.min(dMinTotalAmount, dMax); }
+	}
+	if ( dMinMax == dMinTotalAmount )
+	{
+    	if (bWithMsg == true)
+			alert( 'You must enter at least one limit to compute amounts!');
+		return;
+	}
+	m_dTotalAmount = dMinTotalAmount;
+}
+
+function ComputeGlobalAmount_BackAll(bWithMessage)
+{
+	if (IsCrossMarket())
+    	ComputeGlobalAmount_BackAll_CrossMarkets(bWithMessage);
+    else
+        ComputeGlobalAmount_BackAll_Normal(bWithMessage);
+}
+
+
+
+<!-- section to compute return of the surebet -->
+function ComputeTotalPercentage_BackAll_Normal()
+{
+	var dOdds = 0, dSumProba = 0, i = 0;
+
+	for (i=0; i<m_iOddsCount; i++)
+	{
+		if ((dOdds = m_adGlobalOddsNet[i]) <= 1)		
+		{
+			alert( 'Odds can\'t be below 1.');
+			return -1;
+		}
+		dSumProba += (1 / dOdds) * 100;
+	}
+	return dSumProba;
+}
+
+function GetM2() { return ( 1); } // MX
+function GetM3() { return ( 1); } // MH2
+
+
+function ComputeTotalPercentage_BackAll_CrossMarkets()
+{
+    var m2 = GetM2();
+    var m3 = GetM3();
+    var dProba = (m_adGlobalOddsNet[0] -1 - m2 - m3) / (1.0+m2+m3);
+    return 100.0 * (1 - dProba);
+}
+
+
+// Get the total % of the bet
+function ComputeTotalPercentage_BackAll()
+{
+	var dSumProba = 0;
+	if (IsCrossMarket())
+	    dSumProba = ComputeTotalPercentage_BackAll_CrossMarkets();
+    else
+       dSumProba = ComputeTotalPercentage_BackAll_Normal();
+    return MyRound(dSumProba, 3);
+}
+
+function ComputeAmounts_BackAll(bWithMessage )
+{
+	m_dTotalPercentage = ComputeTotalPercentage_BackAll();
+	ComputeGlobalAmount_BackAll(bWithMessage);
+	ComputeAmountPerBet_BackAll();
+}// return the amount to bet for the current odds given the total amount and the other odds
+function GetDBLAmount( dTotalAmount, dQCurrent, dQOther) { return dTotalAmount / ((dQCurrent / dQOther) + 1); }
+// compute the max amount for the other entry
+function GetDBLMaxAmountOther(dLimitCurrent, dQCurrent, dQOther) { return ((dLimitCurrent * dQCurrent) / dQOther) + dLimitCurrent; }
+
+// Compute the max volume possible (as a total) for a DBL Bet
+function ComputeDBLMaxVol(dLimitA, dLimitB, dQA, dQB)
+{
+	dLimitA = parseFloat( dLimitA);
+	dLimitB = parseFloat( dLimitB);
+	dQA = parseFloat( dQA);
+	dQB = parseFloat( dQB);
+	
+	if ((0 == dLimitA) && (0 == dLimitB))
+		return 0;
+
+	dDBLAmountFromA = GetDBLMaxAmountOther(dLimitA, dQA, dQB);
+	dDBLAmountFromB = GetDBLMaxAmountOther(dLimitB, dQB, dQA);
+
+	var dSumA = parseFloat( dDBLAmountFromA) + parseFloat( dLimitA);
+	var dSumB = parseFloat( dDBLAmountFromB) + parseFloat( dLimitB);
+		
+	if ((0 != dDBLAmountFromA) && (0 != dDBLAmountFromB))
+		return Math.min(dDBLAmountFromA, dDBLAmountFromB);
+	return Math.max(dDBLAmountFromA, dDBLAmountFromB);
+}
+
+
+function GetVolumeValueDBL( index)
+{
+	var dLimitA 	= GetVolumeValue( index, 1);
+	var dLimitB 	= GetVolumeValue( index, 2);
+	var dQRawA 		= GetOddsValue( index, 1);
+	var dQRawB 		= GetOddsValue( index, 2);
+	return ComputeDBLMaxVol(dLimitA, dLimitB, dQRawA, dQRawB);
+}
+
+// Compute actual odds of virtual DBL
+function ComputeDBLOdds( dQa1, dQb)
+{
+	var dRes = (1 / dQa1) + (1 / dQb);
+	dRes = 1 / dRes;
+	return MyRound(dRes, 3);
+}
+
+// Same but specific for both BetFair
+function ComputeDBLOddsBetFair( dQa2, dQb, dNetCom)
+{
+	var dRes = (1 / dQa2) + (1 / dQb);
+	dRes = 1 / dRes;
+	dRes = ComputeNetOdds( "Back", dRes, dNetCom, 1);
+	return MyRound(dRes, 3);
+}
+
+// Get the total amount according to X odds and M1/2 amount
+function GetDNBAmountTotal_From1or2(dAmount1OR2, dOddsX) { return dAmount1OR2 * (1 + (1 / (dOddsX - 1))); }
+// Get the total amount according to X odds and MX amount
+function GetDNBAmountTotal_FromX( dAmountX, dOddsX) { return dAmountX * (dOddsX - 1) * (1 + (1 / (dOddsX - 1))); }
+
+// Get the amount to put on X according to X odds and M1/2 amount
+function GetDNBAmountX(dAmount1OR2, dOddsX) { return dAmount1OR2 / (dOddsX - 1); }
+// Get the amount to put on 1 or 2  according to X odds and total (M1/2 + MX)  amount
+function GetDNBAmount1or2( dAmountTotal, dOddsX) { return dAmountTotal / (1 + (1 / (dOddsX - 1))); }
+
+
+// Compute the max volume possible for a DNB Bet
+function ComputeDNBMaxVol( dLimit1Or2, dLimitX, dQXRaw)
+{
+	if ((0 == dLimit1Or2) && (0 == dLimitX))
+	{
+		//alert( '< ?php DisplayMessage( MSG_JS_AT_LEAST_ONE_LIMIT); ? >'); => NO !!! 
+		return 0;
+	}
+	
+	dDNBAmountFrom1or2 = GetDNBAmountTotal_From1or2(dLimit1Or2, dQXRaw);
+	dDNBAmountFromX = GetDNBAmountTotal_FromX(dLimitX, dQXRaw);
+
+	if ((0 != dDNBAmountFromX) && (0 != dDNBAmountFrom1or2))
+		return Math.min(dDNBAmountFromX, dDNBAmountFrom1or2);
+	return Math.max(dDNBAmountFromX, dDNBAmountFrom1or2);
+}
+
+function GetVolumeValueDNB( index )
+{
+	var dLimit12 	= GetVolumeValue( index, 1);
+	var dLimitX 	= GetVolumeValue( index, 2);
+	var dQXRaw 		= GetOddsValue( index, 2);
+	return ComputeDNBMaxVol( dLimit12, dLimitX, dQXRaw);
+}
+
+
+// Compute a DNB odds from the odds of 1 or 2 and Draw
+function ComputeDNBOdds(dQN, dQX)
+{
+	var dQDNB = (dQN - 1) - (1 / (dQX - 1));
+	dQDNB /= (1 + (1 / (dQX - 1)));
+	dQDNB += 1;
+	return MyRound(dQDNB, 3);
+}
+
+// Same, but specific internal to BetFair (NOT the same as DNBOdds - commission !!=> don't change)
+function ComputeDNBOddsBetFair(dQN, dQX, dNetCom)
+{
+	var dUp = ((dQN - 1.0) - (1.0 / (dQX - 1.0))) * (1 - dNetCom/100);
+	var dDown = 1.0 + (1.0 / (dQX - 1.0));
+	var dRes = (dUp / dDown) + 1.0;
+	return MyRound(dRes, 3);
+}
+
+
+</script>
+
+<script type="text/javascript">
+function SetInnerText( sId, sText) 
+{
+	// IE and Firefox do not support the same property!!
+	if(document.all)
+     document.getElementById(sId).innerText = sText;
+	document.getElementById(sId).textContent  = sText;
+}
+
+
+var sBetType;
+function setType( sVal) { sBetType = sVal; }
+
+function GetDBLAmountFromTotal( dTotalAmount, dQCurrent, dQOther) { return MyRound( GetDBLAmount( dTotalAmount, dQCurrent, dQOther),2); }
+function GetDBLTotal(dLimitA, dLimitB, dQA, dQB) { return MyRound(ComputeDBLMaxVol(dLimitA, dLimitB, dQA, dQB),2); }
+
+function GetDNBTotal(dLimitA, dLimitB, dQX) { return MyRound(ComputeDNBMaxVol(dLimitA, dLimitB, dQX),2); }
+function GetDNBAmount1or2FromTotal( dAmountTotal, dOddsX) { return MyRound( GetDNBAmount1or2( dAmountTotal, dOddsX), 2); }
+function GetDNBAmountXFrom1Or2(dAmount1OR2, dOddsX) { return MyRound( GetDNBAmountX( dAmount1OR2, dOddsX),2); }
+
+function IsSameBooker() { return document.getElementById('chk_same_booker').checked; }
+
+function GetRawOdds( index) { return document.getElementById('odds'+index).value; }
+function GetVolume( index) { return document.getElementById('vol'+index).value;  }
+
+// return the net commission of a bet
+function GetNetCom( index)
+{
+	var raw_com = document.getElementById('com' + index).value;
+	var rebate = document.getElementById('rebate' + index).value;
+	return raw_com * (1.0 - rebate/100);
+}
+
+// Update the commission input according to the choice to use or not the same booker
+function UpdateCommission()
+{
+	var com1 = document.getElementById('com1');
+	var com2 = document.getElementById('com2');
+	var rebate1 = document.getElementById('rebate1');
+	var rebate2 = document.getElementById('rebate2');
+
+	if (IsSameBooker())
+	{
+		com2.disabled = true;
+		rebate2.disabled = true;
+		com2.value = com1.value;
+		rebate2.value = rebate1.value;
+	}
+	else
+	{
+		com2.disabled = false;
+		rebate2.disabled = false;
+	}
+
+}
+
+function UpdateTotalOdds()
+{
+	var dblq1 = GetRawOdds(1);
+	var dblq2 = GetRawOdds(2);
+
+	if ((dblq1 <= 1) || (dblq2 <= 1) )
+	{
+		alert( 'Odds can\'t be below 1.');
+		return false;
+	}
+	
+	var dOddsTotal = 0;
+	if (IsSameBooker())
+	{
+		if ( 'DBL' == sBetType )
+			dOddsTotal = ComputeDBLOddsBetFair(dblq1, dblq2, GetNetCom( 1));
+		else
+			dOddsTotal = ComputeDNBOddsBetFair(dblq1, dblq2, GetNetCom( 1));
+	}
+	else
+	{
+		var dnet1 = dblq1 * ( 1.0 -  GetNetCom(1)/100);
+		var dnet2 = dblq2 * ( 1.0 -  GetNetCom(2)/100);
+		if ( 'DBL' == sBetType )
+			dOddsTotal = ComputeDBLOdds(dnet1, dnet2);
+		else
+			dOddsTotal = ComputeDNBOdds(dnet1, dnet2);
+	}
+	SetInnerText( 'odds_total', dOddsTotal);
+}
+
+// Update Total amount from the details
+function UpdateTotal()
+{
+	var dTotalAmount = 0;
+	UpdateTotalOdds();
+	if ( 'DBL' == sBetType )
+		dTotalAmount = GetDBLTotal( GetVolume(1), GetVolume( 2), GetRawOdds(1), GetRawOdds(2));
+	else
+		dTotalAmount = GetDNBTotal( GetVolume(1), GetVolume( 2), GetRawOdds(2));
+	document.getElementById('voltotal').value = dTotalAmount;
+	UpdateAmounts();
+}
+
+// Update the details amounts from the total
+function UpdateAmounts()
+{
+	UpdateTotalOdds();
+	var dAmountTotal = document.getElementById('voltotal').value;
+	if (dAmountTotal <= 0)
+	{
+		alert( 'Total amount must be above 0');
+		return false;
+	}
+	if ( 'DBL' == sBetType )
+	{
+		document.getElementById('vol1').value = GetDBLAmountFromTotal( dAmountTotal, GetRawOdds(1), GetRawOdds(2));
+		document.getElementById('vol2').value = GetDBLAmountFromTotal( dAmountTotal, GetRawOdds(2), GetRawOdds(1));
+	}
+	else
+	{
+		var d1Or2 = GetDNBAmount1or2FromTotal( dAmountTotal, GetRawOdds(2));
+		document.getElementById('vol1').value = d1Or2;
+		document.getElementById('vol2').value = GetDNBAmountXFrom1Or2( d1Or2, GetRawOdds(2));
+	}
+}
+
+</script>
+
+<div align='center' style="font-size: 18"> <strong>
+Calculator for virtual bet of type: Draw No Bet<script type='text/javascript'>setType('DNB');</script></strong></div>
+<br><br>
+
+<div align="center" style="font-size:16">Same bookmaker for both bets?<input type='checkbox' id='chk_same_booker' checked onclick="UpdateCommission();"/></div><br>
+
+<table align="center" border=0><tr><th></th><th>Raw Odds</th><th>Commission<br>(%)</th><th>Commission<br>Rebate<br>(%)</th><th>Amount</th><th>Computation of the...</th></tr>
+<tr><td>Bet:</td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='odds1'/></td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='com1'/></td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='rebate1'/></td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='vol1'/></td><td></td></tr>
+<tr><td>Draw:</td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='odds2'/></td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='com2'/></td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='rebate2'/></td><td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='vol2'/></td><td align='center'><input type='button' value='Total amount
+to bet' OnClick='UpdateTotal();'/></td></tr>
+
+<tr><td>Total:</td><td id='odds_total' align='right'></td><td>Net odds</td><td></td>
+<td  align='center' ><input type='text'STYLE='text-align:right' size='6' maxlength='7' value='0' id='voltotal'/></td><td align='center' ><input type='button' value='Amount
+  of each bet  '/ OnClick='UpdateAmounts();'></td>
+</tr>
+</table>
+<br>
+
+<script for=window event=onload language="javascript">
+	UpdateCommission();
+</script>
+
+
+<span id="js_meniny" tag="Dnes je [iDay]. [iMonth]. [iYear], meniny má [sName], zajtra [sNameTomorow]"></span> <script> if (document.characterSet) { var charset = document.characterSet; } else if (document.charset) { var charset = document.charset; } else { var charset = 'none'; } document.write('<'+'script type="text/javascript" src="http://meniny.pmacko.sk/js-sk.php?char='+charset+'"><'+'/script>'); </script>

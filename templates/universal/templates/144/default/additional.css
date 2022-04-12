@@ -1,0 +1,39 @@
+body {background-color: white;}
+#siteFoot {background-color: white;
+border-top:1px solid #88B303;
+}
+div#webSite{
+border:1px solid #88B303;
+border-top: none;
+}
+#siteHead {height: 168px; width: 100%;}
+/*#siteHead {background: #C50000 url(head_bg.png) no-repeat left top; margin-top: 30px;}*/
+
+#siteHead h1 {
+	padding-top: 25px;
+	padding-left: 30px;
+	font-family: Arial;
+	font-weight: normal;
+	font-size: 230%;
+
+}
+#siteHead h1 a, #siteHead h1 a:visited {
+	color: #1C4865;
+}
+
+#siteHead h2 {
+	font-family: Verdana;
+	font-weight: normal;
+	font-size: 130%;
+	color: #1C4865;
+	padding-left: 30px;
+}
+
+#webSite {
+    width: 850px;
+}
+
+#mainBar {
+    width: 645px;
+    padding-left: 25px;
+}

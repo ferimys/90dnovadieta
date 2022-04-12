@@ -1,0 +1,83 @@
+body{
+margin:0;
+padding:0;
+background-image:none !important;
+background-color:#FFFFFF;
+color:#000000;
+font-size:90%;
+}
+div#website{
+float:left;
+margin:0;
+padding:0;
+}
+div#website *{
+display:none;
+}
+div#leftBar,div#rightBar,div#menuBar,div#website div#siteHead img{
+display:none !important;
+}
+div#website div#siteHead,div#website div#siteMain div#mainBar,div#website div#siteFoot{
+display:block;
+color:#FF0000;
+margin:0 0 1em;
+padding:0;
+height:auto;
+float:left;
+clear:both;
+font-size:90%;
+}
+div#website div#siteFoot{
+margin:1em 0;
+}
+div#leftFoot{
+float:left;
+}
+div#rightFoot{
+float:right;
+}
+a{
+color:#000000;
+margin:0;
+padding:0;
+display:inline;
+}
+div#website div#siteMain div#mainBar{
+line-height:130%;
+}
+h1,h2,h3,h4,h5,h6,p,ul{
+margin:0.3em 0;
+padding:0;
+font-size:120%;
+line-height:130%;
+}
+h2{
+font-size:115%;
+}
+h3{
+font-size:110%;
+}
+h4{
+font-size:105%;
+}
+h5{
+font-size:100%;
+}
+h6{
+font-size:95%;
+}
+p,ul{
+font-size:90%;
+}
+table{
+margin:0;
+padding:0;
+border:none;
+border-collapse:collapse;
+font-size:90%;
+}
+td{
+margin:0;
+padding:0.1em;
+font-size:90%;
+}
