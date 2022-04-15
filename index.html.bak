@@ -19,9 +19,6 @@
 #siteMain {background: #ffffff url(templates/universal/templates/144/default/main_bg_left.png) repeat-y;}
 body {background: #EFEFEF url(templates/universal/templates/144/default/site_bg.png) repeat-x;}
 #siteHead {background: white url(templates/universal/templates/144/default/head_bg.jpg) no-repeat left top;}
-.meniny {
-  style="position: relative";width:121px; height:100px; z-index:1; left:1px; top:111px; 
-}
 </style>
 
     <style type="text/css" media="screen and (max-width: 600px)">
@@ -30,7 +27,6 @@ body {background: #EFEFEF url(templates/universal/templates/144/default/site_bg.
 #siteHead {background: white url(templates/universal/templates/144/default/head_bg.jpg) no-repeat left top;}
 </style>
 <link href="templates/universal/templates/144/default/additional.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="templates/universal/templates/144/default/additionalmobile.css" rel="stylesheet" type="text/css" media="screen and (max-width: 600px)" />
 <style>#mainBar {width:76%;}
 </style>
 	</head>
@@ -43,7 +39,7 @@ body {background: #EFEFEF url(templates/universal/templates/144/default/site_bg.
 		  <div id='logoBack'>
 		  <h1><a href='index.html'>90 dňová rozlišovacia diéta</a></h1>		    
 		    		    <h2>Populárna diéta</h2>		    		  </div>
-		  		</div>	
+		  		</div>
 		<div id='siteMain'>
 <div id='leftBar'><div id='myMenu'>
 <ul>
@@ -71,29 +67,11 @@ body {background: #EFEFEF url(templates/universal/templates/144/default/site_bg.
 </li>
 </ul>
 
-		
-
 <div class='cleaner'></div>
-
-	
 
 
 
 </div>  
-
-<div class="meniny" id=meniny>
-			<script>
-promenna = new Date(); // vytvoří proměnnou obsahující aktuální datum
-mesic = promenna.getMonth() + 1;//leden je 0
-denVMesici = promenna.getDate();
-roki = promenna.getFullYear();
-document.write("Dnes je " + denVMesici + ". " + mesic + ". " + roki);
-</script>
-
-			 Meniny oslavuje:
- <SCRIPT src="meniny_sk.js" type=text/javascript></SCRIPT> </div>
-
-
   <div class="cartdiv">
     </div>
     				<div class="cleaner2"></div>
@@ -119,7 +97,19 @@ document.write("Dnes je " + denVMesici + ". " + mesic + ". " + roki);
 
 
 <p><strong>Starajte sa o seba</strong></p>
-		
+		<div style="position: absolute; width: 115px; height: 100px; z-index: 1; left: 22px; top: 372px" id="vrstva1">
+			<script>
+promenna = new Date(); // vytvoří proměnnou obsahující aktuální datum
+mesic = promenna.getMonth() + 1;//leden je 0
+denVMesici = promenna.getDate();
+document.write("Dnes je " + denVMesici + ". " + mesic + ".");
+</script>
+
+
+
+			 Meniny oslavuje:
+ <SCRIPT src="meniny_sk.js" type=text/javascript></SCRIPT> </div>
+
 <p><br />
 - začnite sa zaoberať niečím novým. Každý deň buďte telesne aktívny: choďte pešo po schodoch, chodievajte na prechádzky, behajte, skáčte, korčuľujte. Doprajte si aj duševný oddych a pohodu: </p>
 		<p>meditujte, cvičte jogu, vzdelávajte sa. Čím viac sa rozprávajte a priebežne riešte svoje problémy.<br />

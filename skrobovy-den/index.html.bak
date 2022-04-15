@@ -4,9 +4,9 @@
 <head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1">	 <meta http-equiv="Content-language" content="sk" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="description" content="90 dňová rozlišovacia diéta - návod na chudnutie pre všetkých a ako schudnúť,Ako a koľko tekutín sa má správne vypiť." />
-	<meta name="keywords" content="dieta, diéta, rozlišovacia diéta, rozlisovacia dieta, chudnutie, schudnúť, ako zchudnúť, ako schudnúť, jedlo, zdravá strava, zdrava, strava,tekutiny, voda, mnozstvo, denne" />
-  <title>Denná potreba pitia tekutín pre človeka - 90 dňová rozlišovacia diéta</title>
+	<meta name="description" content="90 dňová rozlišovacia diéta - návod na chudnutie pre všetkých a ako schudnúť,Príklad pre škrobový deň" />
+	<meta name="keywords" content="dieta, diéta, rozlišovacia diéta, rozlisovacia dieta, chudnutie, schudnúť, ako zchudnúť, ako schudnúť, jedlo, zdravá strava, zdrava, strava,škrob, deň, jedlá, diéta" />
+  <title>Typický príklad škrobového dňa - 90 dňová rozlišovacia diéta</title>
 <link href="../templates/universal/menus/menu-10/blue/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="../templates/universal/screen.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="../templates/universal/print.css" rel="stylesheet" type="text/css" media="print" />	<link href="../templates/universal/main_b-1.css" rel="stylesheet" type="text/css" media="screen" />
@@ -23,7 +23,7 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 </style>
 <link href="../templates/universal/templates/144/default/additional.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="../templates/universal/templates/144/default/additionalmobile.css" rel="stylesheet" type="text/css" media="screen and (max-width: 600px)" />
-<style>#mainBar {width:76%;}
+<style>#mainBar {width:644px;}
 </style>
 	</head>
 <body>
@@ -40,13 +40,13 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 </li>
 <li ><a href="../varenie/index.html" >Varenie</a>
 </li>
-<li class="select"><a href="index.html" class="select">Tekutiny</a>
+<li ><a href="../tekutiny/index.html" >Tekutiny</a>
 </li>
 <li ><a href="../cykly-stravovania/index.html" >Cykly stravovania</a>
 </li>
 <li ><a href="../bielkovinovy-den/index.html" >Bielkovinový deň</a>
 </li>
-<li ><a href="../skrobovy-den/index.html" >Škrobový deň</a>
+<li class="select"><a href="index.html" class="select">Škrobový deň</a>
 </li>
 <li ><a href="../den-uhlohydratov/index.html" >Deň uhľohydrátov</a>
 </li>
@@ -72,31 +72,33 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 		}
 	/* ]]> */
 	</script>
-<div class='object-text' style='clear:both;'><h2 class='subtitle'>Tekutiny - dôležité</h2><p><a onclick="return !bar(this.href,690,518);" href="../objects/text/showimage4053.html?height=480&amp;width=640&amp;data=/defaultalbum/Food-and-drink/416767_8781.jpg" target="_blank"><img style='float: right; margin-left: 10px; margin-bottom: 5px; border: 1px solid gray;' src='../resize/defaultalbum/Food-and-drink/416767_8781abfa.jpg?w=200&amp;h=200?w=200&amp;h=200' alt='Image' /></a><p><br />
-Vypite aspoň 2 l vody denne, radšej viac než menej. Pite aj čaje a ovocno-zeleninové džúsy.<br />
-<strong>POZOR</strong>: ovocno-zeleninové džúsy sa rátajú ako porcia jedla.<br />
-Káva je dovolená, ale bez cukru a bez mlieka.
- Vyskúšajte aj žitnú kávu.<br />
-Pitie alkoholu zastavuje proces chudnutia, a preto počas trvania diéty je alkohol zakázaný.<br />
-&nbsp;</p>
+<div class='object-text' style='clear:both;'><h2 class='subtitle'>Škrobový deň</h2><p><a onclick="return !bar(this.href,690,518);" href="../objects/text/showimagecf97.html?height=480&amp;width=640&amp;data=/defaultalbum/Food-and-drink/416601_6940.jpg" target="_blank"><img style='float: right; margin-left: 10px; margin-bottom: 5px; border: 1px solid gray;' src='../resize/defaultalbum/Food-and-drink/416601_6940abfa.jpg?w=200&amp;h=200?w=200&amp;h=200' alt='Image' /></a><p><br />
+OBED: Môžete jest fazuľu, hrach, sóju, šošovicu, cícer, ryžu alebo zemiaky. Všetko muší byt uvarene alebo udusene na čo najmenšom množstve tuku. k tomu zjedzte jeden krajec chleba, šalát z rozličných druhov zeleniny a rôzne zeleninové prívarky.
+
+ Keď je na rade škrobový deň, majte vždy poruke zeleninový vyvar alebo zeleninovú kocku<br />
+VEČERA: rovnako ako na obed, ale v menšom množstve a bez chleba. Zapamätajte si že množstvo všetkého, čo zjete na obed - nech je to plný hlboký tanier - na večeru už o polovicu menej!</p>
 		<p>&nbsp;</p>
-		<p><strong>MYTOLÓGIA úspešného chudnutia:</strong><br>
-		V 90-tich dňoch sa striedajú štyri rôzne dni podľa toho, ktoré potraviny 
-		v určený deň kombinujete. Diéta sa vždy začne bielkovinovým dňom, po ňom 
-		nasleduje škrobový deň, potom deň UH, po vitamínovom dni sa zase opakuje 
-		bielkovinový. Každý 29-ty deň je deň vodný, vtedy pijete len vodu a nič 
-		iné. póradie dní nesmiete meniť. <br>
-		Jedzte 3-krát denne, ak ste dopoludnia veľmi hladní, doprajte si na 
-		desiatu jeden kus ovocia. Ak máte dlhý pracovný čas a nemáte možnosť 
-		naobedovať sa, namiesto obeda zjedzte jeden kus ovocia a vypite pohár 
-		džúsu. Džús sa rata namiesto jedného jedla. <br>
-		Diéta je zostavená tak, aby ste mohli jesť aj v reštauráciách. 
-		Objednajte si presne to, čo môžete jesť v ten deň. Trvajte na svojej 
-		objednávke. Objednajte si napr: mäso a šalát, zemiaky a šalát, alebo 
-		cestoviny s paradajkovou omáčkou, alebo ovocný pohár bez šľahačky.<span style="font-size: 10.0pt; font-family: Comic Sans MS">
+		<p><b>Postarajte sa aj o telo</b> <br>
+		Ak máte akékoľvek zdravotné problémy, tak skôr ako začnete s diétou, 
+		póraďte sa s lekárom. Počas diéty si dajte skontrolovať krvný obraz a 
+		zmerať tlak. Neskúšajte nič, čo by vám mohlo viac uškodiť, než osožiť. 
+		Zdravie je na prvom mieste a vy sami zaň nesiete zodpovednosť. Je preto 
+		lepšie, ak vaše kg budú ubúdať pod dozorom lekára. <br>
 		<br>
-		<br>
-&nbsp;</span></p></p></div></div>
+		Najprimeranejšia stratégia chudnutia a udržania si telesnej hmotnosti je 
+		menší prijem kalórií spojený so zvýšenou telesnou aktivitou. K diéte 
+		teda patri aj pohyb, a to akýkoľvek, ale musí byt pravidelný. Ideálne by 
+		bolo, keby ste boli viacerí s rovnakým záujmom. Pohyb je veľmi dôležitý 
+		na to, aby ste si telo udržali pružné a pohyblivé. Ak sa budete 
+		pravidelne hýbať, budete mať rozvinutú aj svalovú hmotu. Spaľovanie 
+		tukov v organizme bude maximálne, a preto telo bude nepretržite čerpať 
+		energiu, dokonca aj počas spánku. </p>
+		<p>Utieranie prachu, vysávanie, či práca v záhrade to sú bežné prace. 
+		Vaše telo však potrebuje aj iný druh pohybu. Umožnite mu ho, aj keď maťe 
+		naozaj veľkú nadváhu. Malými krôčikmi sa dopracujete k veľkému úspechu - 
+		to je predsa váš cieľ. <br>
+		<br />
+&nbsp;</p></p></div></div>
 			<div class='clearBoth'></div>
 		</div>
 		<div id='siteFoot'>

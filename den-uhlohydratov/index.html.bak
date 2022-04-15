@@ -4,9 +4,9 @@
 <head>
 		 <meta name="viewport" content="width=device-width, initial-scale=1">	 <meta http-equiv="Content-language" content="sk" />
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="description" content="90 dňová rozlišovacia diéta - návod na chudnutie pre všetkých a ako schudnúť,Ako a koľko tekutín sa má správne vypiť." />
-	<meta name="keywords" content="dieta, diéta, rozlišovacia diéta, rozlisovacia dieta, chudnutie, schudnúť, ako zchudnúť, ako schudnúť, jedlo, zdravá strava, zdrava, strava,tekutiny, voda, mnozstvo, denne" />
-  <title>Denná potreba pitia tekutín pre človeka - 90 dňová rozlišovacia diéta</title>
+	<meta name="description" content="90 dňová rozlišovacia diéta - návod na chudnutie pre všetkých a ako schudnúť,Názorný príklad uhľohydrátového dňa." />
+	<meta name="keywords" content="dieta, diéta, rozlišovacia diéta, rozlisovacia dieta, chudnutie, schudnúť, ako zchudnúť, ako schudnúť, jedlo, zdravá strava, zdrava, strava,uhľohydráty, jedlá, zemiaky, diéta" />
+  <title>Príklad pre typ dňa uhľohydrátový - 90 dňová rozlišovacia diéta</title>
 <link href="../templates/universal/menus/menu-10/blue/style.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="../templates/universal/screen.css" rel="stylesheet" type="text/css" media="screen" />
 	<link href="../templates/universal/print.css" rel="stylesheet" type="text/css" media="print" />	<link href="../templates/universal/main_b-1.css" rel="stylesheet" type="text/css" media="screen" />
@@ -16,14 +16,14 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 #siteHead {background: white url(../templates/universal/templates/144/default/head_bg.jpg) no-repeat left top;}
 </style>
 
-    <style type="text/css" media="screen and (max-width: 600px)">
+ <style type="text/css" media="screen and (max-width: 600px)">
 #siteMain {background: #ffffff url(../templates/universal/templates/144/default/main_bg_left2.png) repeat-y;}
 body {background: #EFEFEF url(../templates/universal/templates/144/default/site_bg.png) repeat-x;}
 #siteHead {background: white url(../templates/universal/templates/144/default/head_bg.jpg) no-repeat left top;}
 </style>
 <link href="../templates/universal/templates/144/default/additional.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="../templates/universal/templates/144/default/additionalmobile.css" rel="stylesheet" type="text/css" media="screen and (max-width: 600px)" />
-<style>#mainBar {width:76%;}
+<style>#mainBar {width:644px;}
 </style>
 	</head>
 <body>
@@ -40,7 +40,7 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 </li>
 <li ><a href="../varenie/index.html" >Varenie</a>
 </li>
-<li class="select"><a href="index.html" class="select">Tekutiny</a>
+<li ><a href="../tekutiny/index.html" >Tekutiny</a>
 </li>
 <li ><a href="../cykly-stravovania/index.html" >Cykly stravovania</a>
 </li>
@@ -48,7 +48,7 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 </li>
 <li ><a href="../skrobovy-den/index.html" >Škrobový deň</a>
 </li>
-<li ><a href="../den-uhlohydratov/index.html" >Deň uhľohydrátov</a>
+<li class="select"><a href="index.html" class="select">Deň uhľohydrátov</a>
 </li>
 <li ><a href="../vitaminovy-den/index.html" >Vitamínový deň</a>
 </li>
@@ -72,31 +72,35 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 		}
 	/* ]]> */
 	</script>
-<div class='object-text' style='clear:both;'><h2 class='subtitle'>Tekutiny - dôležité</h2><p><a onclick="return !bar(this.href,690,518);" href="../objects/text/showimage4053.html?height=480&amp;width=640&amp;data=/defaultalbum/Food-and-drink/416767_8781.jpg" target="_blank"><img style='float: right; margin-left: 10px; margin-bottom: 5px; border: 1px solid gray;' src='../resize/defaultalbum/Food-and-drink/416767_8781abfa.jpg?w=200&amp;h=200?w=200&amp;h=200' alt='Image' /></a><p><br />
-Vypite aspoň 2 l vody denne, radšej viac než menej. Pite aj čaje a ovocno-zeleninové džúsy.<br />
-<strong>POZOR</strong>: ovocno-zeleninové džúsy sa rátajú ako porcia jedla.<br />
-Káva je dovolená, ale bez cukru a bez mlieka.
- Vyskúšajte aj žitnú kávu.<br />
-Pitie alkoholu zastavuje proces chudnutia, a preto počas trvania diéty je alkohol zakázaný.<br />
-&nbsp;</p>
+<div class='object-text' style='clear:both;'><h2 class='subtitle'>Deň uhľohydrátov</h2><p><a onclick="return !bar(this.href,690,518);" href="../objects/text/showimagedab3.html?height=480&amp;width=640&amp;data=/defaultalbum/Food-and-drink/406745_3619.jpg" target="_blank"><img style='float: right; margin-left: 10px; margin-bottom: 5px; border: 1px solid gray;' src='../resize/defaultalbum/Food-and-drink/406745_3619abfa.jpg?w=200&amp;h=200?w=200&amp;h=200' alt='Image' /></a><p><br />
+OBED: Môžete jesť varené cestoviny s rôznymi zeleninovými omáčkami, ochutene koreninami a bylinkami alebo pizzu s paradajkovou omáčkou. Môžete pripraviť aj akékoľvek slané pečivo z nekysnutého cesta, napríklad praclíky, slané pagáče vo veľkosti pizze. Môžu byt aj palacinky, samozrejme bez vajec a mlieka.
+
+
+ K jedálnemu lístku tohto dňa patria aj pohánka, jačmeň, proso a iné obilniny<br />
+VECERA: 1 kus torty alebo 3 ks drobného pečiva alebo 3 kopčeky zmrzliny a záväzne 1tabličku čokolády na varenie. Ak nie ste na sladké siahnite po slanom pečive alebo zjedzte kus pizze.</p>
 		<p>&nbsp;</p>
-		<p><strong>MYTOLÓGIA úspešného chudnutia:</strong><br>
-		V 90-tich dňoch sa striedajú štyri rôzne dni podľa toho, ktoré potraviny 
-		v určený deň kombinujete. Diéta sa vždy začne bielkovinovým dňom, po ňom 
-		nasleduje škrobový deň, potom deň UH, po vitamínovom dni sa zase opakuje 
-		bielkovinový. Každý 29-ty deň je deň vodný, vtedy pijete len vodu a nič 
-		iné. póradie dní nesmiete meniť. <br>
-		Jedzte 3-krát denne, ak ste dopoludnia veľmi hladní, doprajte si na 
-		desiatu jeden kus ovocia. Ak máte dlhý pracovný čas a nemáte možnosť 
-		naobedovať sa, namiesto obeda zjedzte jeden kus ovocia a vypite pohár 
-		džúsu. Džús sa rata namiesto jedného jedla. <br>
-		Diéta je zostavená tak, aby ste mohli jesť aj v reštauráciách. 
-		Objednajte si presne to, čo môžete jesť v ten deň. Trvajte na svojej 
-		objednávke. Objednajte si napr: mäso a šalát, zemiaky a šalát, alebo 
-		cestoviny s paradajkovou omáčkou, alebo ovocný pohár bez šľahačky.<span style="font-size: 10.0pt; font-family: Comic Sans MS">
-		<br>
-		<br>
-&nbsp;</span></p></p></div></div>
+		<p><b>Trvácnosť úspechu </b><br>
+		Ak ste počas diéty &quot;zhrešili&quot; nič to, pokračujte dnom, ktorý je na rade. 
+		Úbytok každého kg vás nechtiac prinúti k tomu, aby ste v diéte 
+		pokračovali podľa tejto knihy. Každý stratený kg vás dovedie k tomu, aby 
+		ste lepšie a zdravšie cítili. Tento krát pre zmenu vyhrajte VY! Život je 
+		na vašej strane <br>
+		Zapamätajte si, že trvalo dobrý pocit úžitok z diéty budete mať len 
+		vtedy, ak si dosiahnutú hmotnosť aj udržíte. Pre diétu ste sa rozhodli 
+		preto, aby ste stratili zbytočné kg, zlepšili svoje fyzické a psychické 
+		zdravie. Dosiahnete to však len vtedy, ak od základov zmeníte svoje 
+		návyky. Čiže: rovnomerná strava, veľa pohybu a budete plní energie, vždy 
+		v dobrej nálade a tak sa stanete príťažlivejšími. Treba si len dať nove 
+		ciele. Držte sa tejto rady a uvidíte, že mať takéto životné krédo sa 
+		skutočne oplatí.</p>
+		<p><br>
+		Ešte ďalších 90 dni po diéte konzumujte na raňajky iba ovocie, pri obede 
+		a večeri dodržujte čas stravovania a správnu kombináciu potravín. Ak v 
+		tých ďalších 90tich dňoch stratíte ešte 3kg nastala u vás zmena 
+		metabolizmu. Usilujte sa o to, aby sa rovnomerná strava a telesný pohyb 
+		stali vaším novým životným štýlom <br>
+		<br/>
+&nbsp;</p></p></div></div>
 			<div class='clearBoth'></div>
 		</div>
 		<div id='siteFoot'>

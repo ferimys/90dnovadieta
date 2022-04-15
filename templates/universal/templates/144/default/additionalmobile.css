@@ -30,7 +30,7 @@ border-top: none;
 }
 
 #webSite {
-    width: 850px;
+    width: 95%;
 }
 
 #mainBar {
@@ -41,7 +41,6 @@ border-top: none;
     position: relative;
     width: 121px;
     height: 100px;
-    left: 1px;
-    top: 111px";
-    padding-left: 25px;
+    top: 10px;
+    left: 2%;
 }

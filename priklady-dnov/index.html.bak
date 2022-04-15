@@ -23,7 +23,7 @@ body {background: #EFEFEF url(../templates/universal/templates/144/default/site_
 </style>
 <link href="../templates/universal/templates/144/default/additional.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="../templates/universal/templates/144/default/additionalmobile.css" rel="stylesheet" type="text/css" media="screen and (max-width: 600px)" />
-<style>#mainBar {width:76%;}
+<style>#mainBar {width:644px;}
 </style>
 	</head>
 <body>
