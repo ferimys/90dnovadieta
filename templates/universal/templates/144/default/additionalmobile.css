@@ -37,6 +37,13 @@ border-top: none;
     width: 645px;
     padding-left: 25px;
 }
+#vrstva2 {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 28px;
+    top: 609px"
+}
 .meniny {
     position: relative;
     width: 121px;
